@@ -1,6 +1,5 @@
-import git
 from git import *
-from subprocess import *
+#from subprocess import *
 import sys
 
 
@@ -8,14 +7,21 @@ def gitpy():
 
 		""" Cloning the repo locally """
 		print "cloning started"
-		git.Git().clone("git@github.com:nbhuvaneshwari/myrepo-py-practice.git")
+		
+		import git
+		git.Git().clone("git@github.com:nbhuvaneshwari/"+sys.argv[1]+".git")
 		
 		""" Change directory """
 
-		call(["cd","practice"])
+		#call(["cd","practice"])
 
-		repo=Repo('/home/admin/Desktop/practice/GitPython-0.3.2.RC1/abc/GitPython-0.3.2.RC1/jivacore.ui')
+		repo=Repo('/home/admin/Desktop/practice/GitPython-0.3.2.RC1/abc')
 		git = repo.git
+
+		heads = repo.heads
+		master = heads.master      
+		master.commit              
+		#master.rename("new_name") 
 
 		""" Checkout to the branch """
 		my_branch_name=sys.argv[2]
@@ -23,7 +29,13 @@ def gitpy():
 
 		""" Creation of tag """
 		my_tag=sys.argv[3]
-		new_tag = repo.create_tag('my_tag', 'first tag created')
+		repo.create_tag("my_tag")
+
+		"""Push the repo"""
+		origin = repo.remotes.origin
+		origin.refs                     
+		o = origin.rename('my_branch_name') 
+		o.push()
 
 	
 
