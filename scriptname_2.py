@@ -1,46 +1,79 @@
 from git import *
-#from subprocess import *
+
+import shlex
+
 import sys
+import os
 
+def repo_creation():
+	print "entered"
+	repo_name=sys.argv[1]
+	my_branch_name=sys.argv[2]
+	my_tag=sys.argv[3]
+	repo_exist=os.path.isdir('/home/admin/Desktop/practice/GitPython-0.3.2.RC1/abc/')
+	repo_clone(sys.argv[1])
+	repo_change_branch(sys.argv[1],sys.argv[2])
+	repo_create_tag(sys.argv[1],sys.argv[3])	
+		
+def repo_clone(repo_name):
+	""" Cloning the repo locally """
+ 	
+	try:
 
-def gitpy():
-
-		""" Cloning the repo locally """
 		print "cloning started"
+		#import pdb;pdb.set_trace()
+		import git 
+		git.Git().clone("git@github.com:nbhuvaneshwari/"+repo_name+".git")
+		print "Cloning done..."
+	except Exception,e:
+		print "Repo already exist.."
+		#raise GitCommandError(command, status, stderr_value)
+ 
+def repo_change_branch(repo_name,my_branch_name):
+	""" Checkout to the branch """
+	repo=Repo('/home/admin/Desktop/practice/GitPython-0.3.2.RC1/abc/'+repo_name)
+	git = repo.git
+	try:	
 		
-		import git
-		git.Git().clone("git@github.com:nbhuvaneshwari/"+sys.argv[1]+".git")
-		
-		""" Change directory """
+	#heads = repo.heads
+	#master = heads.reference      
+	#master.commit              
+	#master.rename("new_name") 
 
-		#call(["cd","practice"])
+		git.checkout('HEAD', b=my_branch_name)
+		print "Repo changed to branch"+my_branch_name
+	except Exception,e:
+		print "Branch doesn't exist"
+		git.branch('HEAD', b=my_branch_name)
+		git.checkout('HEAD', b=my_branch_name)
+		print "Branch created and shited too"
 
-		repo=Repo('/home/admin/Desktop/practice/GitPython-0.3.2.RC1/abc')
-		git = repo.git
 
-		heads = repo.heads
-		master = heads.master      
-		master.commit              
-		#master.rename("new_name") 
+def repo_create_tag(repo_name,my_tag):
 
-		""" Checkout to the branch """
-		my_branch_name=sys.argv[2]
-		git.checkout('HEAD', b='my_branch_name')
+	""" Creation of tag """
 
-		""" Creation of tag """
-		my_tag=sys.argv[3]
-		repo.create_tag("my_tag")
+	repo=Repo('/home/admin/Desktop/practice/GitPython-0.3.2.RC1/abc/'+repo_name)
+	git = repo.git
+	try:
+		repo.create_tag(my_tag)
+		print "Tag is created"
+	except Exception,e:
+		print "Tag already exist"
 
-		"""Push the repo"""
-		origin = repo.remotes.origin
-		origin.refs                     
-		o = origin.rename('my_branch_name') 
-		o.push()
+
+#def push_repo():
+	
+		#"""Push the repo"""
+		#origin = repo.remotes.origin
+		#origin.refs                     
+		#o = origin.rename('my_branch_name') 
+		#o.push()
 
 	
 
 if __name__=="__main__":
-	gitpy()
+	repo_creation()
 
 
 
