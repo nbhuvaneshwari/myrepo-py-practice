@@ -1,18 +1,21 @@
 import os
 import sys
+import subprocess
 
-def repo_cloning():
-	url = "git clone git@github.com:zeomega/"+sys.argv[1]+".git"
-	os.system(url)
-	print "Repo Created"
-	os.chdir(sys.argv[1])
-	os.system("git checkout "+sys.argv[2])
-	print "Checkout to branch "
-	os.system("git tag "+sys.argv[3])
-	print "Tag is created"
-	os.system("git config --global push.default simple")
-	print "Push to remote"
-
+def repo_cloning(repo_name, branch_name,tag_version):
+    print repo_name
+    url = "git clone git@github.com:Sadashiv/%s" %repo_name
+    print url
+    subprocess.call(url, shell=True)
+    print "Repo cloning"
+    os.chdir(repo_name)
+    print "Checkout to branch "
+    subprocess.call("git checkout %s" %branch_name , shell=True)
+    print "Tag is created"
+    subprocess.call("git tag v%s -m 'Tag created'" %tag_version , shell=True)
 
 if __name__ == "__main__":
-	repo_cloning()
+    repo_name = sys.argv[1]
+    branch_name = sys.argv[2]
+    tag_version = sys.argv[3]
+    repo_cloning(repo_name, branch_name, tag_version)
