@@ -12,7 +12,7 @@ def repo_cloning(repo_name, branch_name,tag_version):
     print "Checkout to branch "
     subprocess.call("git checkout %s" %branch_name , shell=True)
     print "Tag is created"
-    subprocess.call("git tag v%s -m 'Tag created'" %tag_version , shell=True)
+    subprocess.call('git tag v%s -m "Tag created"' %tag_version , shell=True)
 
 if __name__ == "__main__":
     repo_name = sys.argv[1]
